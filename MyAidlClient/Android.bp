@@ -1,0 +1,32 @@
+android_app {
+    name: "MyAidlClient",
+
+    srcs: [
+	"automotive/src/main/java/**/*.java",
+    	"automotive/src/main/aidl/com/example/myaidlservice/IAidlService.aidl",
+    	"automotive/src/main/aidl/com/example/myaidlservice/IAidlServiceCallback.aidl",
+    ],
+
+    aidl: {
+	local_include_dirs: ["automotive/src/main/aidl/com/example/myaidlservice" ],
+    },
+    
+    dex_preopt: {
+	enabled: false,
+    },
+
+    resource_dirs: ["automotive/src/main/res"],
+    manifest: "automotive/src/main/AndroidManifest.xml",
+
+    privileged: true,
+    certificate: "platform",
+    sdk_version: "current",
+
+    static_libs: [
+        "android-support-v4",
+        "android-support-v7-appcompat",
+        "androidx-constraintlayout_constraintlayout",
+    ],
+
+}
+

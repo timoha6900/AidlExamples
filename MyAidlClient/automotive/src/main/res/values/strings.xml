@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">My AidlClient</string>
+
+    <string name="bind_service">Bind Service</string>
+    <string name="unbind_service">Unbind Service</string>
+    <string name="service_data">Service data:</string>
+    <string name="null_data">NULL</string>
+
+    <string name="connected">Connected to MyAidlService</string>
+    <string name="disconnected">Disconnected from MyAidlService</string>
+    <string name="service_does_not_exists">MyAidlService does not exists</string>
+</resources>
