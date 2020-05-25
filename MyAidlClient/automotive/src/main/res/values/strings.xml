@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">My AidlClient</string>
 
+    <string name="service_title">AidlService:</string>
+    <string name="native_service_title">AidlNativeService:</string>
+
     <string name="bind_service">Bind Service</string>
     <string name="unbind_service">Unbind Service</string>
     <string name="service_data">Service data:</string>
@@ -9,4 +12,8 @@
     <string name="connected">Connected to MyAidlService</string>
     <string name="disconnected">Disconnected from MyAidlService</string>
     <string name="service_does_not_exists">MyAidlService does not exists</string>
+
+    <string name="connected_native">Connected to AidlNativeService</string>
+    <string name="disconnected_native">Disconnected from AidlNativeService</string>
+    <string name="service_native_does_not_exists">AidlNativeService does not exists</string>
 </resources>

@@ -3,6 +3,13 @@
     android:gravity="center_horizontal"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:paddingTop="4dip"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/service_title"/>
+
     <Button android:id="@+id/bind_btn"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:text="@string/bind_service">
@@ -18,10 +25,44 @@
     <TextView
         android:layout_width="match_parent" android:layout_height="wrap_content"
         android:layout_weight="0" android:paddingBottom="4dip"
+        android:gravity="center_horizontal"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/service_data"/>
 
     <TextView android:id="@+id/data_tv"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:gravity="center_horizontal" android:paddingTop="4dip"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/null_data"/>
+
+    <TextView
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:paddingTop="20dip"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/native_service_title"/>
+
+    <Button android:id="@+id/bind_native_btn"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="@string/bind_service">
+        <requestFocus />
+    </Button>
+
+    <Button android:id="@+id/unbind_native_btn"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="@string/unbind_service"
+        android:enabled="false">
+    </Button>
+
+    <TextView
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_weight="0" android:paddingBottom="4dip"
+        android:gravity="center_horizontal"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/service_data"/>
+
+    <TextView android:id="@+id/native_data_tv"
         android:layout_width="match_parent" android:layout_height="wrap_content"
         android:layout_weight="0"
         android:gravity="center_horizontal" android:paddingTop="4dip"

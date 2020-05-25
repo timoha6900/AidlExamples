@@ -9,6 +9,8 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
+import android.os.ServiceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,15 +18,15 @@ import android.widget.Toast;
 
 import com.example.myaidlservice.IAidlService;
 import com.example.myaidlservice.IAidlServiceCallback;
+import com.example.aidlnativeservice.IAidlNativeService;
 
 public class MainActivity extends Activity {
 
     IAidlService mService = null;
+    IAidlNativeService mNativeService = null;
 
-    private Button bindBtn, unbindBtn;
-    private TextView dataTV;
-
-    private boolean isBound;
+    private Button bindBtn, unbindBtn, bindNativeBtn, unbindNativeBtn;
+    private TextView dataTV, nativeDataTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +35,22 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main_activity);
 
         initViews();
+
+
     }
 
     private void initViews() {
         bindBtn = findViewById(R.id.bind_btn);
         unbindBtn = findViewById(R.id.unbind_btn);
+        bindNativeBtn = findViewById(R.id.bind_native_btn);
+        unbindNativeBtn = findViewById(R.id.unbind_native_btn);
         dataTV = findViewById(R.id.data_tv);
+        nativeDataTV = findViewById(R.id.native_data_tv);
 
         bindBtn.setOnClickListener(mClickListener);
         unbindBtn.setOnClickListener(mClickListener);
+        bindNativeBtn.setOnClickListener(mClickListener);
+        unbindNativeBtn.setOnClickListener(mClickListener);
     }
 
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -94,6 +103,17 @@ public class MainActivity extends Activity {
                     unbindService(mConnection);
                     changeViewsState(false);
                     break;
+
+                case R.id.bind_native_btn:
+                    if(bindNativeService()) {
+                        changeNativeViewsState(true);
+                    }
+                    break;
+
+                case R.id.unbind_native_btn:
+                    unbindNativeService();
+                    changeNativeViewsState(false);
+                    break;
             }
         }
     };
@@ -107,7 +127,40 @@ public class MainActivity extends Activity {
         }
     }
 
+    private void changeNativeViewsState(boolean isBound) {
+        bindNativeBtn.setEnabled(!isBound);
+        unbindNativeBtn.setEnabled(isBound);
+        if(!isBound) {
+            mNativeService = null;
+            nativeDataTV.setText(R.string.null_data);
+        }
+    }
+
+    private boolean bindNativeService() {
+        boolean result = false;
+        IBinder b = ServiceManager.getService("com.example.aidlnativeservice");
+        if(b != null) {
+            mNativeService = IAidlNativeService.Stub.asInterface(b);
+            if(mNativeService != null) {
+                Log.d("AidlClient", "bindNativeService is successful");
+                mHandler.sendEmptyMessage(NATIVE_MSG);
+                result = true;
+            } else {
+                Log.d("AidlClient", "MainActivity asInterface fail.");
+            }
+        } else {
+            Log.d("AidlClient", "MainActivity get native service fail.");
+        }
+        return result;
+    }
+
+    private void unbindNativeService() {
+        mNativeService = null;
+        mHandler.removeMessages(NATIVE_MSG);
+    }
+
     private static final int BUMP_MSG = 1;
+    private static final int NATIVE_MSG = 2;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -115,6 +168,17 @@ public class MainActivity extends Activity {
             switch (msg.what) {
                 case BUMP_MSG:
                     dataTV.setText("Weather: " + String.valueOf(msg.obj) + ", temperature: " + msg.arg1);
+                    break;
+
+                case NATIVE_MSG:
+                    try {
+                        String weather = mNativeService.GetWeather();
+                        int temperature = mNativeService.GetTemperature();
+                        nativeDataTV.setText("Wheather: " + weather + ", temperature: " + temperature);
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                    sendMessageDelayed(obtainMessage(NATIVE_MSG), 1*1500);
                     break;
 
                 default:

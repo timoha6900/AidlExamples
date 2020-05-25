@@ -5,10 +5,14 @@ android_app {
 	"automotive/src/main/java/**/*.java",
     	"automotive/src/main/aidl/com/example/myaidlservice/IAidlService.aidl",
     	"automotive/src/main/aidl/com/example/myaidlservice/IAidlServiceCallback.aidl",
+    	"automotive/src/main/aidl/com/example/aidlnativeservice/IAidlNativeService.aidl",
     ],
 
     aidl: {
-	local_include_dirs: ["automotive/src/main/aidl/com/example/myaidlservice" ],
+	local_include_dirs: [
+		"automotive/src/main/aidl/com/example/myaidlservice",
+		"automotive/src/main/aidl/com/example/aidlnativeservice"
+	],
     },
     
     dex_preopt: {
@@ -20,7 +24,7 @@ android_app {
 
     privileged: true,
     certificate: "platform",
-    sdk_version: "current",
+    platform_apis: true,
 
     static_libs: [
         "android-support-v4",
